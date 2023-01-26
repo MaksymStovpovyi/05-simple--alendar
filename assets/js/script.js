@@ -22,8 +22,37 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
 });
 
-let day = dayjs().format('dddd MMM D');
+// time for header
 let currentDay = $('#currentDay');
+currentDay.text(dayjs().format('dddd MMM D HH:mm:ss'));
 
-currentDay.text(day);
+let timer = setInterval(function() {
+  currentDay.text(dayjs().format('dddd MMM D HH:mm:ss'));
+}, 1000);
+
+// color of time
+  for ( let i = 0; i < 24; i++) {
+  
+    let timeList = $('.container-fluid').children().eq(i).children().eq(0)[0].textContent.substr(0, 2);
+    timeList = Number(timeList);
+    
+    let time = dayjs().format('HH');
+    time = Number(time);
+  
+    if (timeList < time) {
+      $('.container-fluid').children().eq(i)[0].classList.toggle("past");
+  
+    } else if (timeList > time) {
+      $('.container-fluid').children().eq(i)[0].classList.toggle("future");
+  
+    } else {
+      $('.container-fluid').children().eq(i)[0].classList.toggle("present");
+  
+    }
+  }
+
+
+
+
+
 
