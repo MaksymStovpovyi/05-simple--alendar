@@ -26,3 +26,4 @@ let day = dayjs().format('dddd MMM D');
 let currentDay = $('#currentDay');
 
 currentDay.text(day);
+
