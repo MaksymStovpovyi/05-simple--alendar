@@ -38,7 +38,7 @@ if (!localStorage.saveText) { // have't LS
 
 let btn = $('.fas');
 for (let i = 0; i < 24; i++) {
-  btn[i].addEventListener('click', (e) => {
+  btn[i].addEventListener('click', () => {
     let sText = btn[i].parentElement.previousElementSibling.value;
     arrOfLS[i] = sText;
     localStorage.setItem('saveText', JSON.stringify(arrOfLS));
