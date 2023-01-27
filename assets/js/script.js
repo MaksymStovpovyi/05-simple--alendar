@@ -1,27 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-});
-
 // time for header
 let currentDay = $('#currentDay');
 currentDay.text(dayjs().format('dddd MMM D HH:mm:ss'));
@@ -30,7 +6,7 @@ let timer = setInterval(function() {
   currentDay.text(dayjs().format('dddd MMM D HH:mm:ss'));
 }, 1000);
 
-// color of time
+// color of time-block 
   for ( let i = 0; i < 24; i++) {
   
     let timeList = $('.container-fluid').children().eq(i).children().eq(0)[0].textContent.substr(0, 2);
@@ -51,8 +27,28 @@ let timer = setInterval(function() {
     }
   }
 
+// save text
+let arrOfLS = [];
+if (!localStorage.saveText) { // have't LS
+  localStorage.setItem('saveText', JSON.stringify([]));
 
+} else {         
+  arrOfLS = JSON.parse(localStorage.getItem('saveText'));
+}
 
+let btn = $('.fas');
+for (let i = 0; i < 24; i++) {
+  btn[i].addEventListener('click', (e) => {
+    let sText = btn[i].parentElement.previousElementSibling.value;
+    arrOfLS[i] = sText;
+    localStorage.setItem('saveText', JSON.stringify(arrOfLS));
+  })
+}
 
-
-
+let textarea = $('textarea');
+for (let i = 0; i < 24; i++) {
+  let arrLS = JSON.parse(localStorage.getItem('saveText'));
+  if(arrLS[i] != undefined) {
+    textarea[i].value = arrLS[i];
+  }
+}
